@@ -45,6 +45,3 @@ def parse_log(log_line: str) -> dict:
         "event_type": event_type
     }
     return log_dict
-
-for log in read_logs("logs/sample_auth.log"):
-    print(parse_log(log))
