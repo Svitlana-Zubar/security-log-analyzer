@@ -13,12 +13,6 @@ def extract_ip(log_line: str) -> str | None:
         return ip_address.group()
     return None
 
-def print_ips():
-    for log in read_logs("logs/sample_auth.log"):
-        print(extract_ip(log))
-
-print_ips()
-
 def extract_event_type(log_line: str) -> str | None:
     if "Failed password" in log_line:
         return "failed_login"
