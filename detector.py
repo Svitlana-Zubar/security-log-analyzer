@@ -1,13 +1,14 @@
 from datetime import datetime, timedelta
 
-from parser import read_logs, parse_log
 
 def parse_timestamp(timestamp: str) -> datetime:
     date = datetime.strptime(f"{timestamp} 2026", "%b %d %H:%M:%S %Y")
     return date.replace(year=2026)
 
+
 def within_time_window(first_timestamp: datetime, second_timestamp: datetime, minutes: int = 2) -> bool:
     return abs(second_timestamp - first_timestamp) <= timedelta(minutes=minutes)
+
 
 def group_failed_logins(logs: list[dict]) -> dict:
     failed_logins = {}
@@ -20,6 +21,7 @@ def group_failed_logins(logs: list[dict]) -> dict:
             else:
                 failed_logins[ip].append(timestamp)
     return failed_logins
+
 
 def detect_brute_force(logs: list[dict]) -> list:
     failed_logins = group_failed_logins(logs)
@@ -42,6 +44,7 @@ def detect_brute_force(logs: list[dict]) -> list:
                     break
     return alerts
 
+
 def group_events_by_ip(logs: list[dict]) -> dict:
     events_by_ip = {}
     for log in logs:
@@ -51,6 +54,7 @@ def group_events_by_ip(logs: list[dict]) -> dict:
         else:
             events_by_ip[ip].append(log)
     return events_by_ip
+
 
 def detect_success_after_failure(logs: list[dict]) -> list:
     events_by_ip = group_events_by_ip(logs)
@@ -78,6 +82,7 @@ def detect_success_after_failure(logs: list[dict]) -> list:
                         alerts.append(alert)
                 failed_attempts.clear()
     return alerts
+
 
 def detect_multiple_accounts(logs: list[dict]) -> list:
     events_by_ip = group_events_by_ip(logs)
@@ -110,7 +115,3 @@ def detect_multiple_accounts(logs: list[dict]) -> list:
             if alert_found:
                 break
     return alerts
-
-# logs = []
-# for line in read_logs("logs/sample_auth.log"):
-#     logs.append(parse_log(line))

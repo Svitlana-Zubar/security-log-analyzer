@@ -4,6 +4,7 @@ detect_success_after_failure,
 detect_multiple_accounts
 )
 
+
 def test_detect_brute_force():
     logs = [
         {
@@ -45,6 +46,7 @@ def test_detect_brute_force():
     assert alerts[0]["ip_address"] == "192.168.1.50"
     assert alerts[0]["attempts"] == 5
 
+
 def test_no_brute_force_below_threshold():
     logs = [
         {
@@ -76,6 +78,7 @@ def test_no_brute_force_below_threshold():
     alerts = detect_brute_force(logs)
 
     assert len(alerts) == 0
+
 
 def test_detect_success_after_failure():
     logs = [
@@ -114,6 +117,7 @@ def test_detect_success_after_failure():
     assert alerts[0]["username"] == "admin"
     assert alerts[0]["failed_attempts"] == 3
 
+
 def test_no_success_after_failure_below_threshold():
     logs = [
         {
@@ -139,6 +143,7 @@ def test_no_success_after_failure_below_threshold():
     alerts = detect_success_after_failure(logs)
 
     assert len(alerts) == 0
+
 
 def test_no_success_after_failure_outside_time_window():
     logs = [
@@ -172,6 +177,7 @@ def test_no_success_after_failure_outside_time_window():
 
     assert len(alerts) == 0
 
+
 def test_detect_multiple_accounts():
     logs = [
         {
@@ -203,6 +209,7 @@ def test_detect_multiple_accounts():
     assert alerts[0]["accounts_targeted"] == 3
     assert set(alerts[0]["usernames"]) == {"admin", "root", "lana"}
 
+
 def test_no_multiple_accounts_below_threshold():
     logs = [
         {
@@ -222,6 +229,7 @@ def test_no_multiple_accounts_below_threshold():
     alerts = detect_multiple_accounts(logs)
 
     assert len(alerts) == 0
+
 
 def test_no_multiple_accounts_outside_time_window():
     logs = [
