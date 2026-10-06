@@ -38,7 +38,11 @@ def detect_brute_force(logs: list[dict]) -> list:
                         "ip_address": ip,
                         "attempts": 5,
                         "start_time": first,
-                        "end_time": fifth
+                        "end_time": fifth,
+                        "mitre_attack": {
+                            "technique_id": "T1110",
+                            "technique": "Brute Force"
+                        }
                     }
                     alerts.append(alert)
                     break

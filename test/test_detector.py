@@ -45,6 +45,8 @@ def test_detect_brute_force():
     assert alerts[0]["severity"] == "HIGH"
     assert alerts[0]["ip_address"] == "192.168.1.50"
     assert alerts[0]["attempts"] == 5
+    assert alerts[0]["mitre_attack"]["technique_id"] == "T1110"
+    assert alerts[0]["mitre_attack"]["technique"] == "Brute Force"
 
 
 def test_no_brute_force_below_threshold():
